@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,13 +32,10 @@ class TextEditorWithObservers {
 
     public void setTextFormatStrategy(TextFormatStrategy formatStrategy) {
         this.currentFormatStrategy = formatStrategy;
-        notifyObservers("Text format changed: " + formatStrategy.getClass().getSimpleName());
+        notifyObservers("Text format changed to: " + formatStrategy.getClass().getSimpleName());
     }
 
     public String getFormattedText() {
-        if (currentFormatStrategy == null) {
-            throw new IllegalStateException("Text format strategy is not set.");
-        }
         return currentFormatStrategy.format(text);
     }
 
