@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -18,7 +20,7 @@ public class Main {
             System.out.println("\n--- Text Editor ---");
             System.out.println("1. Edit text");
             System.out.println("2. Change format (bold, italic, underline, bolditalic, boldunderline)");
-            System.out.println("3. Save document");
+            System.out.println("3. Save document to output.html");
             System.out.println("4. Remove observer");
             System.out.println("5. Exit");
             System.out.print("Choice: ");
@@ -31,6 +33,7 @@ public class Main {
                     String newText = scanner.nextLine();
                     editor.editText(newText);
                     break;
+
                 case "2":
                     System.out.print("Choose format: ");
                     String format = scanner.nextLine();
@@ -40,9 +43,13 @@ public class Main {
                         System.out.println("Invalid format.");
                     }
                     break;
+
                 case "3":
+                    String formatted = editor.getFormattedText();
+                    saveToHTML(formatted);
                     editor.saveDocument();
                     break;
+
                 case "4":
                     System.out.println("Which observer to remove? (ui/autosave/logger)");
                     String obs = scanner.nextLine().toLowerCase();
@@ -53,15 +60,39 @@ public class Main {
                         default: System.out.println("Unknown observer."); break;
                     }
                     break;
+
                 case "5":
                     System.out.println("Exiting...");
                     scanner.close();
                     return;
+
                 default:
                     System.out.println("Invalid choice.");
             }
 
             System.out.println("Formatted text: " + editor.getFormattedText());
+        }
+    }
+
+    private static void saveToHTML(String formattedText) {
+        String htmlContent = """
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>Formatted Text</title>
+        </head>
+        <body style="font-family: Arial; font-size: 18px;">
+            <p>%s</p>
+        </body>
+        </html>
+        """.formatted(formattedText);
+
+        try (FileWriter writer = new FileWriter("output.html")) {
+            writer.write(htmlContent);
+            System.out.println("✅ Saved successfully: output.html");
+        } catch (IOException e) {
+            System.out.println("❌ Error saving HTML: " + e.getMessage());
         }
     }
 }
