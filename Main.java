@@ -22,7 +22,8 @@ public class Main {
             System.out.println("2. Change format (bold, italic, underline, bolditalic, boldunderline)");
             System.out.println("3. Save document to output.html");
             System.out.println("4. Remove observer");
-            System.out.println("5. Exit");
+            System.out.println("5. Show text statistics");
+            System.out.println("6. Exit");
             System.out.print("Choice: ");
 
             String choice = scanner.nextLine();
@@ -60,8 +61,10 @@ public class Main {
                         default: System.out.println("Unknown observer."); break;
                     }
                     break;
-
                 case "5":
+                    editor.printStatistics();
+                    break;
+                case "6":
                     System.out.println("Exiting...");
                     scanner.close();
                     return;
@@ -90,9 +93,9 @@ public class Main {
 
         try (FileWriter writer = new FileWriter("output.html")) {
             writer.write(htmlContent);
-            System.out.println("✅ Saved successfully: output.html");
+            System.out.println("Saved successfully: output.html");
         } catch (IOException e) {
-            System.out.println("❌ Error saving HTML: " + e.getMessage());
+            System.out.println("Error saving HTML: " + e.getMessage());
         }
     }
 }
